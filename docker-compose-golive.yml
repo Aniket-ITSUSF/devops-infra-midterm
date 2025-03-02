@@ -9,14 +9,14 @@ services:
     ports:
       - "80:5173"
     environment:
-      VITE_BOOK_APP_API_BASE_URL: https://www.dev-ops-project.com/api
+      VITE_BOOK_APP_API_BASE_URL: http://www.dev-ops-project.com/api
 
 
   backend:
     image: ${AWS_ECR_URL}/backend:latest
     container_name: backend
     ports:
-      - "8800:8800"
+      - "443:8800"
     environment:
       DATABASE_HOST: ${RDS_HOST}
       DATABASE_USER: ${RDS_USER}
