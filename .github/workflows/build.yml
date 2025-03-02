@@ -77,7 +77,7 @@ jobs:
             --count 1 \
             --instance-type t2.micro \
             --key-name ec2TestInstanceKey \
-            --security-group-ids sg-08345939e5c09142b \
+            --security-group-ids sg-0e0c0f66cf614df71 \
             --subnet-id subnet-08ebcce9df6929f68 \
             --query 'Instances[0].InstanceId' \
             --output text)
