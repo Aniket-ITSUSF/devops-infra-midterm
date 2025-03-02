@@ -76,7 +76,7 @@ jobs:
             --image-id ami-05b10e08d247fb927 \
             --count 1 \
             --instance-type t2.micro \
-            --key-name ec2TestInstanceKey \
+            --key-name DEVOPS \
             --security-group-ids sg-0e0c0f66cf614df71 \
             --subnet-id subnet-08ebcce9df6929f68 \
             --query 'Instances[0].InstanceId' \
