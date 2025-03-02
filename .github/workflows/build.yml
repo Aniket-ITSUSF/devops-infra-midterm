@@ -173,6 +173,7 @@ jobs:
             export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
             export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
             export AWS_REGION=${{ env.AWS_REGION }}
+            export AWS_ECR_URL=${{ secrets.AWS_ECR_REPO }}
 
             export RDS_HOST=${{ secrets.RDS_HOST }}
             export RDS_USER=${{ secrets.RDS_USER }}
@@ -180,7 +181,10 @@ jobs:
             export RDS_NAME=${{ secrets.RDS_NAME }}
             export RDS_PORT=${{ secrets.RDS_PORT }}
 
-            aws ecr get-login-password --region \$AWS_REGION | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.\$AWS_REGION.amazonaws.com
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
+            | docker login --username AWS --password-stdin \
+            ${{ secrets.AWS_ECR_URL }}   
+          
             docker-compose -f docker-compose-golive.yml pull
             docker-compose down -v
             docker-compose -f docker-compose-golive.yml up -d
