@@ -59,8 +59,6 @@ jobs:
             # A separate 'test' or ephemeral tag (include timestamp to avoid collisions)
             TEST_TAG="test-$(date '+%Y%m%d%H%M%S')"
             echo "TEST_TAG=$TEST_TAG" >> $GITHUB_ENV
-          
-            export AWS_ECR_URL=${{ secrets.AWS_ECR_REPO }}
             
             # Tag + push frontend
             docker tag $FRONTEND_IMG_ID ${{ secrets.AWS_ECR_REPO }}/frontend:$TEST_TAG
@@ -122,6 +120,7 @@ jobs:
               ${{ secrets.AWS_ECR_URL }}            
           
               export TEST_TAG=${{ env.TEST_TAG }}
+              export AWS_ECR_URL=${{ secrets.AWS_ECR_REPO }}
               
               # Start containers
               
