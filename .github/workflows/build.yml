@@ -186,7 +186,7 @@ jobs:
             ${{ secrets.AWS_ECR_URL }}   
             
             docker-compose down -v
-            docker-compose -f docker-compose-golive.yml build --no-cache
+            docker-compose -f docker-compose-golive.yml pull
             docker-compose -f docker-compose-golive.yml up -d
             docker image prune -f
           EOF
