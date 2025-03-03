@@ -203,9 +203,9 @@ jobs:
         run: |
           echo "Cleaning up test ECR images..."
           # Delete frontend test image
-          aws ecr batch-delete-image --repository-name frontend \
+          aws ecr batch-delete-image --repository-name devops/midterm-1/frontend \
             --image-ids imageTag=${{ env.TEST_TAG }}
           # Delete backend test image
-          aws ecr batch-delete-image --repository-name backend \
+          aws ecr batch-delete-image --repository-name devops/midterm-1/backend \
             --image-ids imageTag=${{ env.TEST_TAG }}
           echo "Test images deleted."
