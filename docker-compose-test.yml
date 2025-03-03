@@ -15,14 +15,21 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: devops
+      DATABASE_PASSWORD: test1234
+      DATABASE_NAME: test
+      DATABASE_PORT: 3306
 
   db:
     image: mysql:8.0
     restart: always
     environment:
       MYSQL_DATABASE: test
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
-
+      MYSQL_USER: devops
+      MYSQL_PASSWORD: test1234
+      MYSQL_ROOT_PASSWORD: root1234
     volumes:
       - my-db:/var/lib/mysql
       - ../source-repo/mysql:/docker-entrypoint-initdb.d
