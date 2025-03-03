@@ -192,7 +192,20 @@ jobs:
           EOF
 
       - name: Terminate Temporary EC2 Instance
+        if: always()
         run: |
           aws ec2 terminate-instances --instance-ids ${{ env.INSTANCE_ID }}
           aws ec2 wait instance-terminated --instance-ids ${{ env.INSTANCE_ID }}
           echo "Ephemeral EC2 instance terminated."
+
+      - name: Delete Test ECR Images
+        if: always()
+        run: |
+          echo "Cleaning up test ECR images..."
+          # Delete frontend test image
+          aws ecr batch-delete-image --repository-name frontend \
+            --image-ids imageTag=${{ env.TEST_TAG }}
+          # Delete backend test image
+          aws ecr batch-delete-image --repository-name backend \
+            --image-ids imageTag=${{ env.TEST_TAG }}
+          echo "Test images deleted."
