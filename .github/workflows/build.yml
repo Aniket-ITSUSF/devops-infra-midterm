@@ -100,7 +100,7 @@ jobs:
             cd infra-repo
             
             scp -i ~/.ssh/my-key.pem -o StrictHostKeyChecking=no docker-compose-test.yml ec2-user@$PUBLIC_DNS:~/
-            
+            scp -i ~/.ssh/my-key.pem -o StrictHostKeyChecking=no nginx.conf ec2-user@$PUBLIC_DNS:/home/ec2-user/nginx/nginx.conf
             ssh -i ~/.ssh/my-key.pem -o StrictHostKeyChecking=no ec2-user@$PUBLIC_DNS << EOF
           
               export AWS_ACCESS_KEY_ID="${{ env.AWS_ACCESS_KEY_ID }}"
@@ -119,8 +119,6 @@ jobs:
               docker --version
               docker-compose version
           
-              
-            
               # Log in to ECR
               aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
               | docker login --username AWS --password-stdin \

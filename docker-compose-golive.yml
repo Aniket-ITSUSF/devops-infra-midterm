@@ -1,22 +1,36 @@
 version: "3.8"
 
 services:
+  reverse-proxy:
+    image: nginx:alpine
+    container_name: reverse-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt/live/dev-ops-project.com/fullchain.pem:/etc/ssl/certs/devops-fullchain.pem:ro
+      - /etc/letsencrypt/live/dev-ops-project.com/privkey.pem:/etc/ssl/private/devops-privkey.pem:ro
+    depends_on:
+      - frontend
+      - backend
+
   frontend:
     image: ${AWS_ECR_URL}/frontend:latest
     container_name: frontend
     depends_on:
       - backend
-    ports:
-      - "80:5173"
+    expose:
+      - "5173"
     environment:
-      VITE_BOOK_APP_API_BASE_URL: http://www.dev-ops-project.com:443
+      VITE_BOOK_APP_API_BASE_URL: https://www.dev-ops-project.com/api
 
 
   backend:
     image: ${AWS_ECR_URL}/backend:latest
     container_name: backend
-    ports:
-      - "443:8800"
+    expose:
+      - "8800"
     environment:
       DATABASE_HOST: ${RDS_HOST}
       DATABASE_USER: ${RDS_USER}
